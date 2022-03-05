@@ -3,7 +3,6 @@ from nextcord.ext import commands
 from nextcord.ext.commands.errors import ChannelNotFound
 from typing import List, Tuple, Union
 import constants
-from modules.solved import solved_constants
 
 
 def category_is_full(category: nextcord.CategoryChannel) -> bool:
