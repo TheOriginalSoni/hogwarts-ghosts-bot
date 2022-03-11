@@ -279,7 +279,9 @@ def split_embed(embed: nextcord.Embed) -> List[nextcord.Embed]:
                 field_description = field_description[cutoff_point + 1 :]
                 # We just filled the entire embed up, so now we need to make a new one
                 embed_list.append(
-                    nextcord.Embed(title=embed.title + " (continued)", color=embed.color)
+                    nextcord.Embed(
+                        title=embed.title + " (continued)", color=embed.color
+                    )
                 )
                 character_count = len(embed_list[-1].title)
         # Once we've gotten to here, we know that the remaining field character count is able to fit in one field.
@@ -315,8 +317,6 @@ def split_embed(embed: nextcord.Embed) -> List[nextcord.Embed]:
                 name=field.name, value=field_description, inline=field.inline
             )
     return embed_list
-
-
 
 
 def blockquote(string: str) -> str:

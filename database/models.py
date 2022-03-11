@@ -8,6 +8,7 @@ print(os.getenv("POSTGRES_DB_URL"))
 DATABASE_ENGINE = create_engine(os.getenv("POSTGRES_DB_URL"), echo=False, future=True)
 Base = declarative_base()
 
+
 class Verifieds(Base):
     __tablename__ = "verifieds"
     server_id = Column(BIGINT)
@@ -34,6 +35,7 @@ class CustomCommands(Base):
     command_name = Column(String)
     command_return = Column(String)
     image = Column(Boolean)  # Flag for whether or not we need to send an embed
+
 
 class Prefixes(Base):
     __tablename__ = "prefixes"

@@ -19,7 +19,7 @@ class ButtonRolesCog(commands.Cog, name="Button Roles"):
 
     @commands.command()
     @command_predicates.is_owner_or_admin()
-    async def roleview(self, ctx: commands.Context, game: str= "the current HWW Game"):
+    async def roleview(self, ctx: commands.Context, game: str = "the current HWW Game"):
         """Adds roleview to a message. If no such message exists, makes a new message for it.
 
         Usage: `~roleview`
@@ -29,7 +29,7 @@ class ButtonRolesCog(commands.Cog, name="Button Roles"):
         embed = discord_utils.create_embed()
 
         """Starts a role view"""
-        msg = f"If you want to write confessionals for {game}, click \"Create a ticket\" below. This will make a private confessional channel for you where spectators and dead players can read your thoughts!"
+        msg = f'If you want to write confessionals for {game}, click "Create a ticket" below. This will make a private confessional channel for you where spectators and dead players can read your thoughts!'
         embed.add_field(
             name=f"{constants.SUCCESS}",
             value=f"{msg}",
@@ -59,7 +59,7 @@ class ButtonRolesCog(commands.Cog, name="Button Roles"):
         else:
             message = await ctx.fetch_message(ctx.message.reference.message_id)
 
-        if(message.author != self.bot.user):
+        if message.author != self.bot.user:
             embed.add_field(
                 name=f"{constants.FAILED}!",
                 value=f"I cannot edit any message written by another user.",
@@ -85,6 +85,7 @@ class ButtonRolesCog(commands.Cog, name="Button Roles"):
             inline=False,
         )
         await ctx.send(embed=embed)
+
 
 # setup functions for bot
 def setup(bot):

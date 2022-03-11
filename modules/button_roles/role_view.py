@@ -3,16 +3,17 @@ import constants
 
 VIEW_NAME = "RoleView"
 
+
 class RoleView(nextcord.ui.View):
-    sub =""
-    def __init__(self,sub:str="Confessional"):
+    sub = ""
+
+    def __init__(self, sub: str = "Confessional"):
         super().__init__(timeout=None)
         self.sub = sub
 
     def custom_id(view: str, id: int) -> str:
         """create a custom id from the bot name : the view : the identifier"""
         return f"{constants.BOT_NAME}:{view}:{id}"
-
 
     async def handle_click(
         self, button: nextcord.ui.Button, interaction: nextcord.Interaction
@@ -22,10 +23,11 @@ class RoleView(nextcord.ui.View):
         assert isinstance(role, nextcord.Role)
         # if member has the role, remove it
         if role in interaction.user.roles:
-            #await interaction.user.remove_roles(role)
+            # await interaction.user.remove_roles(role)
             # send confirmation message
             await interaction.response.send_message(
-                f"Your were already in {button.label} role. Nothing to do", ephemeral=True
+                f"Your were already in {button.label} role. Nothing to do",
+                ephemeral=True,
             )
         # if the member does not have the role, add it
         else:
