@@ -4,8 +4,10 @@ import constants
 VIEW_NAME = "RoleView"
 
 class RoleView(nextcord.ui.View):
-    def __init__(self):
+    sub =""
+    def __init__(self,sub:str="Confessional"):
         super().__init__(timeout=None)
+        self.sub = sub
 
     def custom_id(view: str, id: int) -> str:
         """create a custom id from the bot name : the view : the identifier"""
@@ -20,7 +22,7 @@ class RoleView(nextcord.ui.View):
         assert isinstance(role, nextcord.Role)
         # if member has the role, remove it
         if role in interaction.user.roles:
-            await interaction.user.remove_roles(role)
+            #await interaction.user.remove_roles(role)
             # send confirmation message
             await interaction.response.send_message(
                 f"Your were already in {button.label} role. Nothing to do", ephemeral=True
@@ -34,8 +36,8 @@ class RoleView(nextcord.ui.View):
             )
 
     @nextcord.ui.button(
-        label="Subscriber",
-        emoji="💖",
+        label=f"{sub}",
+        emoji="📝",
         style=nextcord.ButtonStyle.primary,
         # set custom id to be the bot name : the class name : the role id
         custom_id=custom_id(VIEW_NAME, constants.SUBSCRIBER_ROLE_ID),
