@@ -9,12 +9,12 @@ class ButtonRolesCog(commands.Cog, name="Button Roles"):
     """Give and remove roles based on button presses"""
 
     def __init__(self, bot: commands.Bot):
-        self.__bot = bot
+        self.bot = bot
 
     @commands.Cog.listener()
     async def on_ready(self):
         """When the bot is ready, load the role view"""
-        self.__bot.add_view(RoleView())
+        self.bot.add_view(RoleView())
         print("Button view added")
 
     @commands.command()
@@ -59,6 +59,15 @@ class ButtonRolesCog(commands.Cog, name="Button Roles"):
         else:
             message = await ctx.fetch_message(ctx.message.reference.message_id)
 
+        if(message.author != self.bot.user):
+            embed.add_field(
+                name=f"{constants.FAILED}!",
+                value=f"I cannot edit any message written by another user.",
+                inline=False,
+            )
+            await ctx.send(embed=embed)
+            return
+
         try:
             await message.edit(view=None)
         except nextcord.Forbidden:
@@ -69,7 +78,7 @@ class ButtonRolesCog(commands.Cog, name="Button Roles"):
             )
             await ctx.send(embed=embed)
             return
-            
+
         embed.add_field(
             name=f"{constants.SUCCESS}!",
             value=f"Done! Removed roleview from the message.",
