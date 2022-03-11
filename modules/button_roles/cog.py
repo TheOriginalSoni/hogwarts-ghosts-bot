@@ -1,3 +1,5 @@
+import nextcord
+import constants
 from nextcord.ext import commands
 from .role_view import RoleView
 from utils import discord_utils, logging_utils, command_predicates
@@ -67,13 +69,13 @@ class ButtonRolesCog(commands.Cog, name="Button Roles"):
             )
             await ctx.send(embed=embed)
             return
-
+            
         embed.add_field(
             name=f"{constants.SUCCESS}!",
             value=f"Done! Removed roleview from the message.",
             inline=False,
         )
-
+        await ctx.send(embed=embed)
 
 # setup functions for bot
 def setup(bot):

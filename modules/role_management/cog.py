@@ -68,7 +68,7 @@ class RoleManagementCog(commands.Cog, name="Role Management"):
                     value=f"Could not find role `{rolename}`, so I created it.",
                     inline=False,
                 )
-            except nextcord.Forbidden:
+            except nextcord.errors.Forbidden:
                 embed.add_field(
                     name=f"{constants.FAILED}!",
                     value=f"I couldn't find role `{rolename}`, so I tried to make it. But I don't have "
