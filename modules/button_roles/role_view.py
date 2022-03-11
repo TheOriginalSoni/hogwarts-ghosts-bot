@@ -23,7 +23,7 @@ class RoleView(nextcord.ui.View):
             await interaction.user.remove_roles(role)
             # send confirmation message
             await interaction.response.send_message(
-                f"Your {button.label} role has been removed", ephemeral=True
+                f"Your were already in {button.label} role. Nothing to do", ephemeral=True
             )
         # if the member does not have the role, add it
         else:
@@ -41,31 +41,4 @@ class RoleView(nextcord.ui.View):
         custom_id=custom_id(VIEW_NAME, constants.SUBSCRIBER_ROLE_ID),
     )
     async def subscriber_button(self, button, interaction):
-        await self.handle_click(button, interaction)
-
-    @nextcord.ui.button(
-        label="Developer",
-        emoji="💻",
-        style=nextcord.ButtonStyle.primary,
-        custom_id=custom_id(VIEW_NAME, constants.DEVELOPER_ROLE_ID),
-    )
-    async def developer_button(self, button, interaction):
-        await self.handle_click(button, interaction)
-
-    @nextcord.ui.button(
-        label="Content Creator",
-        emoji="✍",
-        style=nextcord.ButtonStyle.primary,
-        custom_id=custom_id(VIEW_NAME, constants.CONTENT_CREATOR_ROLE_ID),
-    )
-    async def content_creator_button(self, button, interaction):
-        await self.handle_click(button, interaction)
-
-    @nextcord.ui.button(
-        label="YouTube Ping",
-        emoji="🔔",
-        style=nextcord.ButtonStyle.primary,
-        custom_id=custom_id(VIEW_NAME, constants.YOUTUBE_PING_ROLE_ID),
-    )
-    async def youtube_ping_button(self, button, interaction):
         await self.handle_click(button, interaction)

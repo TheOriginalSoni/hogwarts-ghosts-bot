@@ -16,10 +16,10 @@ class ButtonRolesCog(commands.Cog, name="Button Roles"):
 
     @commands.command()
     @commands.is_owner()
-    async def roles(self, ctx: commands.Context):
+    async def roles(self, ctx: commands.Context, game: str= "the current HWW Game"):
         """Starts a role view"""
-        await ctx.send("Click a button to add or remove a role.", view=RoleView())
-        print(RoleView())
+        msg = f"If you want to write confessionals for {game}, click \"Create a ticket\" below. This will make a private confessional channel for you where spectators and dead players can read your thoughts!"
+        await ctx.send(msg, view=RoleView())
 
 
 # setup functions for bot
