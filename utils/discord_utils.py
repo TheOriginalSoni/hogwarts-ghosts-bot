@@ -3,6 +3,7 @@ from nextcord.ext import commands
 from nextcord.ext.commands.errors import ChannelNotFound
 from typing import List, Tuple, Union
 import constants
+import re
 
 
 def category_is_full(category: nextcord.CategoryChannel) -> bool:
@@ -314,3 +315,24 @@ def split_embed(embed: nextcord.Embed) -> List[nextcord.Embed]:
                 name=field.name, value=field_description, inline=field.inline
             )
     return embed_list
+
+
+
+
+def blockquote(string: str) -> str:
+    """Add blockquotes to a string"""
+    # inserts > at the start of string and after new lines
+    # as long as it is not at the end of the string
+    return re.sub(r"(^|\n)(?!$)", r"\1> ", string.strip())
+
+
+def embed_success(
+    title: str,
+    description: str = None,
+    colour: nextcord.Colour = nextcord.Colour.green(),
+) -> nextcord.Embed:
+    """Embed a success message and an optional description"""
+    embed = nextcord.Embed(title=title, colour=colour)
+    if description:
+        embed.description = description
+    return embed

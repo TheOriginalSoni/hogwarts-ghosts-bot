@@ -4,8 +4,6 @@ from database.models import (
     Verifieds,
     CustomCommands,
     Prefixes,
-    SheetTethers,
-    SheetTemplates,
 )
 
 from database.database_utils import (
