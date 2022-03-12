@@ -3,6 +3,7 @@ import constants
 from typing import Union
 from nextcord.ext import commands
 from .role_view import RoleView
+from .tictactoe import TicTacToe
 from utils import discord_utils, logging_utils, command_predicates
 
 
@@ -11,6 +12,11 @@ class ButtonViewCog(commands.Cog, name="Button Roles"):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+
+    @commands.command()
+    async def tic(self, ctx: commands.Context):
+        """Starts a tic-tac-toe game with yourself."""
+        await ctx.send('Tic Tac Toe: X goes first', view=TicTacToe())
 
     @commands.command()
     @command_predicates.is_owner_or_admin()
@@ -71,7 +77,8 @@ class ButtonViewCog(commands.Cog, name="Button Roles"):
             return
 
         try:
-            await message_reference.edit(view=RoleView(role_to_view))
+            #await message_reference.edit(view=RoleView(role_to_view))
+            pass
         except nextcord.Forbidden:
             embed.add_field(
                 name=f"{constants.FAILED}!",
