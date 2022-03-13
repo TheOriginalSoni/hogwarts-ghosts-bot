@@ -8,6 +8,7 @@ print(os.getenv("POSTGRES_DB_URL"))
 DATABASE_ENGINE = create_engine(os.getenv("POSTGRES_DB_URL"), echo=False, future=True)
 Base = declarative_base()
 
+
 class Verifieds(Base):
     __tablename__ = "verifieds"
     server_id = Column(BIGINT)
@@ -26,6 +27,17 @@ TESTER = "Tester"
 VERIFIED_CATEGORIES = [VERIFIED, TRUSTED, TESTER, SOLVER]
 
 
+class RoleTethers(Base):
+    __tablename__ = "roletethers"
+    server_id = Column(BIGINT)
+    server_name = Column(String)
+    role_id = Column(BIGINT)
+    role_name = Column(String)
+    channel_id = Column(BIGINT)
+    game_name = Column(String) 
+    channel_id_role_id = Column(String, primary_key=True)
+
+
 class CustomCommands(Base):
     __tablename__ = "custom_commands"
     server_id = Column(BIGINT)
@@ -34,6 +46,7 @@ class CustomCommands(Base):
     command_name = Column(String)
     command_return = Column(String)
     image = Column(Boolean)  # Flag for whether or not we need to send an embed
+
 
 class Prefixes(Base):
     __tablename__ = "prefixes"

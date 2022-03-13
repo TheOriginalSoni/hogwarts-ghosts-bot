@@ -4,6 +4,7 @@ from database.models import (
     Verifieds,
     CustomCommands,
     Prefixes,
+    RoleTethers,
 )
 
 from database.database_utils import (
@@ -13,6 +14,7 @@ from database.database_utils import (
     get_solvers,
     get_testers,
     get_custom_commands,
+    get_role_tethers,
 )
 
 PREFIXES = get_prefixes()
@@ -21,3 +23,4 @@ TRUSTEDS = get_trusteds()
 SOLVERS = get_solvers()
 TESTERS = get_testers()
 CUSTOM_COMMANDS = get_custom_commands()
+ROLE_TETHERS = get_role_tethers()

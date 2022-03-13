@@ -8,7 +8,7 @@ from utils.search_utils import Pages
 import re
 
 
-class LookupCog(commands.Cog, name="Lookup"):   
+class LookupCog(commands.Cog, name="Lookup"):
     """Performs a Google Search"""
 
     def __init__(self, bot):

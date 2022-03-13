@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from database import models
 
+
 def get_prefixes():
     prefixes = {}
     with Session(models.DATABASE_ENGINE) as session:
@@ -8,6 +9,7 @@ def get_prefixes():
         for row in result:
             prefixes[row.server_id] = row.prefix
     return prefixes
+
 
 def get_solvers():
     solvers = {}
@@ -19,6 +21,20 @@ def get_solvers():
             else:
                 solvers[row.server_id] = [row.role_id]
     return solvers
+
+
+def get_role_tethers():
+    role_tethers = {}
+    with Session(models.DATABASE_ENGINE) as session:
+        result = session.query(models.RoleTethers).all()
+        for row in result:
+            if row.server_id not in role_tethers:
+                role_tethers[row.server_id] = {}
+            role_tethers[row.server_id][row.channel_id] = (
+                row.role_id,
+                row.game_name,
+            )
+    return role_tethers
 
 def get_testers():
     testers = {}
