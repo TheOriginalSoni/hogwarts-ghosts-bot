@@ -27,6 +27,17 @@ TESTER = "Tester"
 VERIFIED_CATEGORIES = [VERIFIED, TRUSTED, TESTER, SOLVER]
 
 
+class RoleTethers(Base):
+    __tablename__ = "roletethers"
+    server_id = Column(BIGINT)
+    server_name = Column(String)
+    role_id = Column(BIGINT)
+    role_name = Column(String)
+    channel_id = Column(BIGINT)
+    game_name = Column(String) 
+    channel_id_role_id = Column(String, primary_key=True)
+
+
 class CustomCommands(Base):
     __tablename__ = "custom_commands"
     server_id = Column(BIGINT)

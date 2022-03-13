@@ -23,6 +23,19 @@ def get_solvers():
     return solvers
 
 
+def get_role_tethers():
+    role_tethers = {}
+    with Session(models.DATABASE_ENGINE) as session:
+        result = session.query(models.RoleTethers).all()
+        for row in result:
+            if row.server_id not in role_tethers:
+                role_tethers[row.server_id] = {}
+            role_tethers[row.server_id][row.channel_id] = (
+                row.role_id,
+                row.game_name,
+            )
+    return role_tethers
+
 def get_testers():
     testers = {}
     with Session(models.DATABASE_ENGINE) as session:

@@ -70,6 +70,8 @@ def main():
                 database.TESTERS[guild.id] = []
             if guild.id not in database.CUSTOM_COMMANDS:
                 database.CUSTOM_COMMANDS[guild.id] = {}
+            if guild.id not in database.ROLE_TETHERS:
+                database.ROLE_TETHERS[guild.id] = {}
         # Populate default command list
         for command in client.commands:
             constants.DEFAULT_COMMANDS.append(command.qualified_name.lower())
@@ -94,6 +96,7 @@ def main():
         database.SOLVERS[guild.id] = []
         database.TESTERS[guild.id] = []
         database.CUSTOM_COMMANDS[guild.id] = {}
+        database.ROLE_TETHERS[guild.id] = {}
 
     @client.event
     async def on_guild_remove(guild: nextcord.Guild):
@@ -112,6 +115,7 @@ def main():
         database.VERIFIEDS.pop(guild.id)
         database.TRUSTEDS.pop(guild.id)
         database.CUSTOM_COMMANDS.pop(guild.id)
+        database.ROLE_TETHERS.pop(guild.id)
 
     @client.event
     async def on_message(message: nextcord.Message):

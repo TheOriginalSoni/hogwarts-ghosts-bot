@@ -448,6 +448,7 @@ class AdminCog(commands.Cog, name="Admin"):
         database.TRUSTEDS[ctx.guild.id] = []
         database.SOLVERS[ctx.guild.id] = []
         database.TESTERS[ctx.guild.id] = []
+        database.ROLE_TETHERS[ctx.guild.id] = {}
 
         with Session(database.DATABASE_ENGINE) as session:
             custom_command_result = (
@@ -466,6 +467,24 @@ class AdminCog(commands.Cog, name="Admin"):
                 value="Successfully reloaded command cache.",
                 inline=False,
             )
+
+            role_tether_result = (
+                session.query(database.RoleTethers)
+                .filter_by(server_id=ctx.guild.id)
+                .all()
+            )
+            if role_tether_result is not None:
+                for role_tether in role_tether_result:
+                    # Populate custom command dict
+                    database.ROLE_TETHERS[ctx.guild.id][
+                        role_tether.channel_id
+                    ] = (role_tether.role_id, role_tether.game_name)
+            embed.add_field(
+                name=f"{constants.SUCCESS}",
+                value="Successfully reloaded role_tether cache.",
+                inline=False,
+            )
+
 
             verified_result = (
                 session.query(database.Verifieds)
