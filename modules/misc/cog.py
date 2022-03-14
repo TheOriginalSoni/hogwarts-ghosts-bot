@@ -5,7 +5,7 @@ from emoji import UNICODE_EMOJI
 from typing import Union
 import constants
 from utils import discord_utils, logging_utils, command_predicates
-
+import random
 
 class MiscCog(commands.Cog, name="Misc"):
     """A collection of Misc useful/fun commands"""
@@ -81,89 +81,6 @@ class MiscCog(commands.Cog, name="Misc"):
             else:
                 await ctx.send(emoji)
             return
-
-    @commands.command(name="about", aliases=["aboutthebot", "github"])
-    async def about(self, ctx):
-        """A quick primer about BBN and what it does
-
-        Usage : `~about`
-        """
-        logging_utils.log_command("about", ctx.guild, ctx.channel, ctx.author)
-        embed = discord_utils.create_embed()
-
-        emoji = None
-        owner = await self.bot.fetch_user(os.getenv("BOT_OWNER_DISCORD_ID"))
-
-        embed.add_field(
-            name=f"About Me!",
-            value=f"Hello!\n"
-            f"Bot Be Named is a discord bot that we use while solving Puzzle Hunts.\n"
-            f"The bot has a few channel management functions, some puzzle-hunt utility functions, "
-            f"as well as Google-Sheets interactivity.\n"
-            f"You can make channels as well as tabs on your Sheet, and other similar QoL upgrades to your puzzlehunting setup.\n\n"
-            f"[Bot Github link](https://github.com/kevslinger/bot-be-named/)\n\n"
-            f"To learn more about the bot or useful functions, use `{constants.DEFAULT_BOT_PREFIX}startup`\n"
-            f"Any problems? Let {owner.mention} know.",
-            inline=False,
-        )
-        await ctx.send(embed=embed)
-
-    @commands.command(name="startup")
-    async def startup(self, ctx):
-        """A quick primer about helpful BBN functions
-
-        Usage : `~startup`
-        """
-        logging_utils.log_command("startup", ctx.guild, ctx.channel, ctx.author)
-        embed = discord_utils.create_embed()
-
-        emoji = None
-        owner = await self.bot.fetch_user(os.getenv("BOT_OWNER_DISCORD_ID"))
-
-        embed.add_field(
-            name=f"Helpful commands!",
-            value=f"Some of the useful bot commands are -\n"
-            f"- `{ctx.prefix}help` for a list of commands\n"
-            f"- `{ctx.prefix}help commandname` for a description of a command (and its limitations). \n **When in doubt, use this command**.\n"
-            f"- `{ctx.prefix}chancrab` and `{ctx.prefix}sheetcrab` for making Google Sheet tabs for your current hunt\n"
-            f"- `{ctx.prefix}solved` etc for marking puzzle channels as solved etc\n"
-            f"- `{ctx.prefix}addcustomcommand` etc for making a customised command with reply.\n\n"
-            f"Note that most commands are only restricted to certain Permission Categories. The current categories for those are - Verified/Trusted/Solver. These need to be configured accordingly.\n"
-            f"- `{ctx.prefix}addverifieds` for setting up Permission Categories on your server\n",
-            inline=False,
-        )
-        await ctx.send(embed=embed)
-
-    @commands.command(name="issue", aliases=["issues"])
-    async def issue(self, ctx, *args):
-        """Gives link to BBN issues from github, then deletes the command that called it.
-
-        Usage : `~issue 10` (Links issue 10)
-        Usage : `~issue Priority: Low` (Links issues with label 'Priority: Low')
-        Usage : `~issues` (Links all issues)
-        """
-        logging_utils.log_command("issue", ctx.guild, ctx.channel, ctx.author)
-
-        repo_link = "https://github.com/kevslinger/bot-be-named/"
-        kwargs = " ".join(args)
-
-        # Delete user's message
-        await ctx.message.delete()
-
-        if len(args) < 1:
-            await ctx.send(f"{repo_link}issues/")
-            return
-
-        try:
-            # If kwargs is an int, get the issue number
-            issue_number = int(kwargs)
-            # No need for an embed
-            await ctx.send(f"{repo_link}issues/{issue_number}")
-        except ValueError:
-            # kwargs is a string
-            # Assume they are referencing a label
-            # Keep spaces together in the link by joining with %20
-            await ctx.send(f"{repo_link}labels/{'%20'.join(kwargs.split())}")
 
     ###################
     # BOTSAY COMMANDS #
@@ -270,6 +187,28 @@ class MiscCog(commands.Cog, name="Misc"):
             inline=False,
         )
         await ctx.send(embed=sent_embed)
+
+    @commands.command(name="choose")
+    async def choose(self, ctx, *args : str):
+        """Choose one of N things
+
+        Usage : `~choose "Eat potato" "Dont eat potato"`
+        """
+        logging_utils.log_command("choose", ctx.guild, ctx.channel, ctx.author)
+        embed = discord_utils.create_embed()
+
+        if(len(args)<1):
+            embed = discord_utils.create_no_argument_embed("Option")
+            await ctx.send(embed=embed)
+            return
+        message = f"The options are `{str(args)}`\n I choose **{random.choice(args)}**" 
+
+        embed.add_field(
+            name=f"{constants.SUCCESS}!",
+            value=message,
+            inline=False,
+        )
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
