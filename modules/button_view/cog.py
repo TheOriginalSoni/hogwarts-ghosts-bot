@@ -12,13 +12,19 @@ class ButtonViewCog(commands.Cog, name="Button Roles"):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.bot.persistent_views_added = False
+        self.GUILD_ID = 470251021554286602
+        self.ROLE_IDS = [
+            652182158403698708,
+            652182367980748800,
+            883103471954448385,
+        ]
+
 
     @commands.command()
     async def tic(self, ctx: commands.Context):
         """Starts a tic-tac-toe game with yourself."""
         await ctx.send('Tic Tac Toe: X goes first', view=TicTacToe())
-
-    
 
     @commands.command()
     @command_predicates.is_owner_or_admin()
@@ -59,15 +65,16 @@ class ButtonViewCog(commands.Cog, name="Button Roles"):
         else:
             msg = arg
 
+        embed2 = discord_utils.create_embed()
         if not ctx.message.reference:
-            embed.add_field(
+            embed2.add_field(
                 name=f"Confessional Bot",
                 value=f"{msg}",
                 inline=False,
             )
-            message_reference = await ctx.send(embed=embed)
+            message_reference = await ctx.send(embed=embed2)
         else:
-            message_reference = ctx.message.reference
+            message_reference = await ctx.fetch_message(ctx.message.reference.message_id)
 
         if message_reference.author != self.bot.user:
             embed.add_field(
@@ -92,7 +99,7 @@ class ButtonViewCog(commands.Cog, name="Button Roles"):
 
         embed.add_field(
             name=f"{constants.SUCCESS}!",
-            value=f"Done! Added roleview to the message for {role}.",
+            value=f"Done! Added roleview to the message for {role_to_view.mention}.",
             inline=False,
         )
         await ctx.send(embed=embed)
@@ -146,6 +153,17 @@ class ButtonViewCog(commands.Cog, name="Button Roles"):
         )
         await ctx.send(embed=embed)
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        if not self.bot.persistent_views_added:
+            guild = self.bot.get_guild(self.GUILD_ID)
+            self.bot.add_view(RoleView(guild, self.ROLE_IDS))
+            self.bot.persistent_views_added = True
+            print("Persistent views added")
+
+    @commands.command(name="roleview2")
+    async def roleview2(ctx: commands.Context):
+        await ctx.send(view=RoleView(ctx.guild, self.ROLE_IDS))
 
 # setup functions for bot
 def setup(bot):

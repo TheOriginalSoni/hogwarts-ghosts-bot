@@ -1,12 +1,12 @@
 import nextcord
 import constants
 from modules import channel_management
-from typing import Union
+from typing import Union, List
 
 VIEW_NAME = "RoleView"
 
 class RoleViewButton(nextcord.ui.Button):
-    def __init__(self, role: nextcord.Role, category: nextcord.Category, sub: str):
+    def __init__(self, role: nextcord.Role, category: nextcord.CategoryChannel, sub: str):
         super().__init__(style=nextcord.ButtonStyle.secondary, label='Write Confessional')
         self.role = role
         self.sub = sub
@@ -32,17 +32,6 @@ class RoleViewButton(nextcord.ui.Button):
                 await interaction.response.send_message(
                 f"Your channel is ready at {a.mention}", ephemeral=True
                 )
-
-
-bot.persistent_views_added = False
-
-GUILD_ID = 563104255242797060
-
-ROLE_IDS = [
-    563105950588993538,
-    588650216773779477,
-    883103471954448385,
-]
 
 class RoleButton(nextcord.ui.Button):
     def __init__(self, role: nextcord.Role):
@@ -72,17 +61,4 @@ class RoleView(nextcord.ui.View):
                 continue
             self.add_item(RoleButton(role))
 
-
-@bot.listen()
-async def on_ready():
-    if not bot.persistent_views_added:
-        guild = bot.get_guild(GUILD_ID)
-        bot.add_view(RoleView(guild, ROLE_IDS))
-        bot.persistent_views_added = True
-        print("Persistent views added")
-
-
-@bot.command()
-async def roleview(ctx: commands.Context):
-    await ctx.send(view=RoleView(ctx.guild, ROLE_IDS))
 
